@@ -28,12 +28,14 @@ public class Enemy_AI : AI
     private Vector3 startPosition;
     private float positionLerp = 0;
 
+    private float _previousDistance = 9999f;
     private bool moveForward = false;
     private AIHealth_Health _healthComponent;
     private AIPathingWaypoint currentWaypoint;
 
     private void Awake()
     {
+        _previousDistance = Mathf.Infinity;
         AIManager.AddNewEnemyAI(this);
         _healthComponent = transform.root.GetComponentInChildren<AIHealth_Health>();
     }
@@ -80,11 +82,16 @@ public class Enemy_AI : AI
 
     private void MoveAI()
     {
+        if (GameManager.Instance.hasGameOvered)
+        {
+            return;
+        }
+
         if (!moveForward)
         {
             currentWaypoint = AIPathingManager.GetNextWaypoint(currentWaypoint);
 
-            if(currentWaypoint == null)
+            if (currentWaypoint == null)
             {
                 PlayerManager.DecreaseHealth(_damageToPlayerHealth);
                 transform.position = _spawnPoint;
@@ -95,7 +102,7 @@ public class Enemy_AI : AI
             float angleToTarget = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(angleToTarget, Vector3.forward);
             transform.rotation = q;
-
+            _previousDistance = Mathf.Infinity;
             moveForward = true;
             return;
         }
@@ -104,10 +111,12 @@ public class Enemy_AI : AI
         //          (Or, teleport to the beginning)
         transform.position += transform.right * Time.deltaTime * aiSpeed;
         float sqDistanceToWaypoint = UsefulMethods.CheapDistanceSquared(transform.position, currentWaypoint.transform.position);
-        if (sqDistanceToWaypoint <= (snapDistance * snapDistance))
+        if (sqDistanceToWaypoint <= (snapDistance * snapDistance) || sqDistanceToWaypoint > _previousDistance)
         {
             moveForward = false;
             transform.position = currentWaypoint.transform.position;
         }
+        _previousDistance = sqDistanceToWaypoint;
+
     }
 }

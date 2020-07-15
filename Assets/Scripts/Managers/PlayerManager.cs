@@ -56,6 +56,7 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             _currentPlayerHealth = 0;
             _gameOverPanel.SetActive(true);
+            GameManager.SetHasGameOverToTrue();
         }
 
         _healthDisplay.text = _currentPlayerHealth.ToString();

@@ -17,9 +17,12 @@ public class GameManager : Singleton<GameManager>
         DEFAULT = 1
     }
 
+
+    public bool hasGameOvered { get; private set; }
     private GameMode _currentCursorGameMode = GameMode.DEFAULT;
     private UIController.BuildObjectPairing? _currentPairing;
     private GameObject _ghostObject;
+
 
     private void Update()
     {
@@ -40,6 +43,11 @@ public class GameManager : Singleton<GameManager>
         _ghostObject = Instantiate(ghostPrefab.ghostObject, Input.mousePosition, Quaternion.identity);
         _currentCursorGameMode = GameMode.BUILD;
         _currentPairing = ghostPrefab;
+    }
+
+    private void ChangeGameOverInternal(bool gameOver)
+    {
+        hasGameOvered = gameOver;
     }
 
     private void ProcessBuildMode()
@@ -86,5 +94,15 @@ public class GameManager : Singleton<GameManager>
     public static void SetCursorGameModeToBuild(UIController.BuildObjectPairing ghostPrefab)
     {
         Instance?.SetCursorGameModeToBuildInternal(ghostPrefab);
+    }
+
+    public static void SetHasGameOverToTrue()
+    {
+        Instance?.ChangeGameOverInternal(true);
+    }
+
+    public static void ResetHasGameOver()
+    {
+        Instance?.ChangeGameOverInternal(false);
     }
 }

@@ -7,10 +7,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public class AIManager : Singleton<AIManager>
 {
+    [Serializable]
+    public struct AIType
+    {
+        public string Name;
+        public GameObject _aiTypeReference;
+        public Sprite _aiTypeIcon;
+    }
+
+    [SerializeField]
+    private List<AIType> _aiTypeReferences = new List<AIType>();
+
     private List<Enemy_AI> _enemyAI = new List<Enemy_AI>();
 
     private Coroutine _spawnCoroutine = null;
@@ -41,9 +55,15 @@ public class AIManager : Singleton<AIManager>
         EvaluateEnemies();
     }
 
+    private AIType GetRandomAITypeInternal()
+    {
+        int randNo = Random.Range(0, _aiTypeReferences.Count);
+        return _aiTypeReferences[randNo];
+    }
+
     private void EvaluateEnemies()
     {
-        if(_enemyAI.Count != 0)
+        if(_enemyAI.Count != 0 || GameManager.Instance.hasGameOvered)
         {
             return;
         }
@@ -64,5 +84,9 @@ public class AIManager : Singleton<AIManager>
         Instance?.RemoveEnemyAIInternal(newAI);
     }
 
+    public static AIType GetRandomAIType()
+    {
+        return Instance.GetRandomAITypeInternal();
+    }
 
 }

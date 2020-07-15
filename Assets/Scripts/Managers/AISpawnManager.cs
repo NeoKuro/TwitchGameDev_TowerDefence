@@ -36,6 +36,7 @@ public class AISpawnManager : Singleton<AISpawnManager>
     private int _waveCooldown = 15;
     private RangeInt _waveSize = new RangeInt(4, 8);
 
+
     [SerializeField]
     public Transform _spawnLocation;
     [SerializeField]
@@ -83,7 +84,8 @@ public class AISpawnManager : Singleton<AISpawnManager>
             return;
         }
 
-        GameObject objectToSpawn = _availableEnemyPrefabs[UnityEngine.Random.Range(0, _availableEnemyPrefabs.Count)];
+        //GameObject objectToSpawn = _availableEnemyPrefabs[UnityEngine.Random.Range(0, _availableEnemyPrefabs.Count)];
+        GameObject objectToSpawn = WaveManager.GetCurrentWave()._aiTypeReference;
 
         int toSpawnCount = _waveSize.Random;
         for (int i = 0; i < toSpawnCount; i++)

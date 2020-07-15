@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5782083089315501228}
   - component: {fileID: 5782083089315501225}
   m_Layer: 0
-  m_Name: EnemyPlaceholder
+  m_Name: Tank_Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3027c9d6838e5e340a5a8e3e1c737267, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d33b5845e5dc1341919079055469ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageToPlayerHealth: 20
+  _moneyToRewardOnDeath: 15
   endPosition: {x: 20, y: 6, z: 0}
   aiSpeed: 5
   snapDistance: 0.1
@@ -122,4 +124,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6835e951124922849967197751e167e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 100
+  currentHealth: 250

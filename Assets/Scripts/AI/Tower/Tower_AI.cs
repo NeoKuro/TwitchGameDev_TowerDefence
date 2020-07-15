@@ -85,7 +85,6 @@ public class Tower_AI : AI
 
     private void ShootTarget()
     {
-        Debug.LogFormat("{0} has shooted target!", gameObject.name);
         _nextShootTime = Time.time + shootCooldown;
         _currentTarget.GetComponent<AIHealth_Health>().ChangeHealth((int)-damageAmount);
 
