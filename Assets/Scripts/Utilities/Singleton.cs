@@ -59,7 +59,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return;
         }
 
+        applicationIsQuitting = false;
         _instance = this as T;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 }

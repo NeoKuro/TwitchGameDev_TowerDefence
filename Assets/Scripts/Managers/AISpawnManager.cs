@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class AISpawnManager : Singleton<AISpawnManager>
 {
-    private struct WaveSizeContainer
+    public struct WaveSizeContainer
     {
         public int minWaveSize;
         public int maxWaveSize;
@@ -32,9 +32,9 @@ public class AISpawnManager : Singleton<AISpawnManager>
     }
 
     private const string _enemyPrefabFilePath = "\\EnemyPrefabs\\";
-
+    [SerializeField]
     private int _waveCooldown = 15;
-    private WaveSizeContainer _waveSize = new WaveSizeContainer(3, 10);
+    private RangeInt _waveSize = new RangeInt(4, 8);
 
     [SerializeField]
     public Transform _spawnLocation;
@@ -58,6 +58,11 @@ public class AISpawnManager : Singleton<AISpawnManager>
     private void Update()
     {
         SpawnWave();
+    }
+
+    private void IncreaseWaveDifficulty_Internal(int waveCountIncrease)
+    {
+        _waveSize += waveCountIncrease;
     }
 
     public void BeginSpawnWave()
@@ -84,8 +89,23 @@ public class AISpawnManager : Singleton<AISpawnManager>
         for (int i = 0; i < toSpawnCount; i++)
         {
             Vector3 spawnPos = _spawnLocation.position + (Vector3.up * objectToSpawn.transform.localScale.y * 1.1f) * i;
-            Instantiate(objectToSpawn, spawnPos, _spawnLocation.rotation);
+            GameObject waveObject = Instantiate(objectToSpawn, spawnPos, _spawnLocation.rotation);
+            Enemy_AI aiRef = waveObject.GetComponent<Enemy_AI>();
+            if(aiRef == null)
+            {
+                Debug.LogErrorFormat(waveObject, "Could not find reference to 'AI' script on object {0}", waveObject.name);
+            }
+            else
+            {
+                aiRef.InitialiseAI(new object[] { spawnPos });
+            }
         }
         _shouldSpawn = false;
+    }
+
+
+    public static void IncreaseWaveDifficulty(int waveCountIncrease)
+    {
+        Instance?.IncreaseWaveDifficulty_Internal(waveCountIncrease);
     }
 }

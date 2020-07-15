@@ -48,6 +48,7 @@ public class AIManager : Singleton<AIManager>
             return;
         }
 
+        WaveManager.IncrementWaveCount();
         AISpawnManager.Instance.BeginSpawnWave();
     }
 

@@ -9,15 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour
+public class AIPathingWaypoint : MonoBehaviour
 {
-    public virtual void InitialiseAI(object[] data)
-    {
 
-    }
-
-    public virtual void AIKilled()
-    {
-
-    }
 }

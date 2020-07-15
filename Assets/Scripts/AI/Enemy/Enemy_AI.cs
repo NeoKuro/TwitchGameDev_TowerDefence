@@ -12,16 +12,25 @@ using UnityEngine.UIElements;
 
 public class Enemy_AI : AI
 {
+    [SerializeField]
+    private int _damageToPlayerHealth = 5;
+
+    [SerializeField]
+    private int _moneyToRewardOnDeath = 8;
+
 
     public Vector3 endPosition;
     public float aiSpeed = 1;
     public float snapDistance = 0.1f;
 
+
+    protected Vector3 _spawnPoint;
     private Vector3 startPosition;
     private float positionLerp = 0;
 
-    private bool moveForward = true;
+    private bool moveForward = false;
     private AIHealth_Health _healthComponent;
+    private AIPathingWaypoint currentWaypoint;
 
     private void Awake()
     {
@@ -38,10 +47,16 @@ public class Enemy_AI : AI
     {
         MoveAI();
     }
+    public override void InitialiseAI(object[] data)
+    {
+        _spawnPoint = (Vector3)data[0];
+    }
+
 
     public override void AIKilled()
     {
         AIManager.RemoveEnemyAI(this);
+        PlayerManager.IncrementCurrency(_moneyToRewardOnDeath);
         Destroy(transform.root.gameObject);
     }
 
@@ -54,7 +69,7 @@ public class Enemy_AI : AI
 
     public void DamageAI(int damageAmount)
     {
-        if(_healthComponent == null)
+        if (_healthComponent == null)
         {
             Debug.LogError("No Health Component Found on Object", this);
             return;
@@ -66,19 +81,33 @@ public class Enemy_AI : AI
     private void MoveAI()
     {
         if (!moveForward)
+        {
+            currentWaypoint = AIPathingManager.GetNextWaypoint(currentWaypoint);
+
+            if(currentWaypoint == null)
+            {
+                PlayerManager.DecreaseHealth(_damageToPlayerHealth);
+                transform.position = _spawnPoint;
+                currentWaypoint = AIPathingManager.GetNextWaypoint(currentWaypoint);
+            }
+
+            Vector3 vectorToTarget = currentWaypoint.transform.position - transform.position;
+            float angleToTarget = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+            Quaternion q = Quaternion.AngleAxis(angleToTarget, Vector3.forward);
+            transform.rotation = q;
+
+            moveForward = true;
             return;
+        }
+
         // TODO: Stop running  these calculations when we've reached our destination!
         //          (Or, teleport to the beginning)
-        transform.position += Vector3.down * Time.deltaTime * aiSpeed;
-        float sqDistanceToWaypoint = UsefulMethods.CheapDistanceSquared(transform.position, endPosition);
+        transform.position += transform.right * Time.deltaTime * aiSpeed;
+        float sqDistanceToWaypoint = UsefulMethods.CheapDistanceSquared(transform.position, currentWaypoint.transform.position);
         if (sqDistanceToWaypoint <= (snapDistance * snapDistance))
         {
             moveForward = false;
-            transform.position = endPosition;
+            transform.position = currentWaypoint.transform.position;
         }
-
-        //positionLerp = Mathf.Clamp01(positionLerp + (Time.deltaTime * aiSpeed));
-        //Vector3 newPos = Vector3.Lerp(startPosition, endPosition, positionLerp);
-        //transform.position = newPos;
     }
 }
