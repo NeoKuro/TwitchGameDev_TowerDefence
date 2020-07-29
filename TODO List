@@ -1,0 +1,47 @@
+---- TO DO ----
+
+	
+-- Map Editor
+	-- Main Menu stuff
+
+-- 3D 
+	-- Sci fi / Space ships etc
+	-- ASteroid fields, Mountains on Planets
+	-- Space Stations, Laser Stations / Towers
+
+-- Bigger Maps / Camera Panning
+-- UI design / assets
+
+-- Elements / Types of attacks
+	-- More tower types
+	
+-- Effects 
+	-- Death FX of AI
+	-- Death FX of Player
+	-- Shooting Effects	
+-- Sounds		
+		
+		
+-- AI Designer Tool
+	- Editor Popup tool
+	- Shows all possible options for configuration such as HP, speed, attack power?
+	- Can toggle certain behaviours on/off
+	
+-- Player Avatar (Space ship?) which the camera is linked toggle
+	-- Can only build within a certain radius of player (some player character(?) can have larger radii)
+
+
+
+
+
+---- DONE ----
+
+		
+-- Boss / Enhanced AI 
+	- A boss AI would spawn alongside the regular wave (possible same type maybe not)
+	- Enhanced AI -- Slight variations on existing 'regular' AI. This spawns INSTEAD of the 'regular wave'
+	
+	
+-- AI
+	- Pre-scripted 'weighted' difficulty
+		

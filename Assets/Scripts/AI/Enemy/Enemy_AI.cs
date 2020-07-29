@@ -18,10 +18,14 @@ public class Enemy_AI : AI
     [SerializeField]
     private int _moneyToRewardOnDeath = 8;
 
+    [SerializeField, Range(1f, 10f)]
+    private float _enhancedMultiplier = 1.25f;
+
 
     public Vector3 endPosition;
     public float aiSpeed = 1;
     public float snapDistance = 0.1f;
+
 
 
     protected Vector3 _spawnPoint;
@@ -78,6 +82,14 @@ public class Enemy_AI : AI
         }
 
         _healthComponent.ChangeHealth(damageAmount);
+    }
+
+    public void EnhanceAI()
+    {
+        _damageToPlayerHealth *= Mathf.RoundToInt(_damageToPlayerHealth * _enhancedMultiplier);
+        _moneyToRewardOnDeath = Mathf.RoundToInt(_moneyToRewardOnDeath * _enhancedMultiplier);
+        aiSpeed *= _enhancedMultiplier;
+        snapDistance *= _enhancedMultiplier;
     }
 
     private void MoveAI()

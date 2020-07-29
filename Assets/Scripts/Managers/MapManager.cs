@@ -28,7 +28,7 @@ public class MapManager : Singleton<MapManager>
 
     private bool GetCellStateInternal(int cellX, int cellY)
     {
-        Debug.LogError("Cell X : " + cellX + "    cellY : " + cellY);
+        //Debug.LogError("Cell X : " + cellX + "    cellY : " + cellY);
         return _gridCellStatus[cellY][cellX];
     }
 

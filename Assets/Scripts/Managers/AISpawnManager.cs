@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AIManager;
 
 public class AISpawnManager : Singleton<AISpawnManager>
 {
@@ -39,8 +40,6 @@ public class AISpawnManager : Singleton<AISpawnManager>
 
     [SerializeField]
     public Transform _spawnLocation;
-    [SerializeField]
-    private List<GameObject> _availableEnemyPrefabs;
 
     private bool _shouldSpawn;
     private float _nextSpawnTime = 0;
@@ -48,11 +47,6 @@ public class AISpawnManager : Singleton<AISpawnManager>
     protected override void Awake()
     {
         base.Awake();
-        if (_availableEnemyPrefabs == null || _availableEnemyPrefabs.Count == 0)
-        {
-            Debug.LogError("We don't have any prefabs assinged!!", this);
-            enabled = false;
-        }
         BeginSpawnWave();
     }
 
@@ -84,8 +78,17 @@ public class AISpawnManager : Singleton<AISpawnManager>
             return;
         }
 
+        SpawnMinionWave();
+        SpawnBossWave();
+
+        _shouldSpawn = false;
+    }
+
+    private void SpawnMinionWave()
+    {
         //GameObject objectToSpawn = _availableEnemyPrefabs[UnityEngine.Random.Range(0, _availableEnemyPrefabs.Count)];
         GameObject objectToSpawn = WaveManager.GetCurrentWave()._aiTypeReference;
+        bool isEnhanced = WaveManager.GetChanceOfEnhancedAI();
 
         int toSpawnCount = _waveSize.Random;
         for (int i = 0; i < toSpawnCount; i++)
@@ -93,16 +96,42 @@ public class AISpawnManager : Singleton<AISpawnManager>
             Vector3 spawnPos = _spawnLocation.position + (Vector3.up * objectToSpawn.transform.localScale.y * 1.1f) * i;
             GameObject waveObject = Instantiate(objectToSpawn, spawnPos, _spawnLocation.rotation);
             Enemy_AI aiRef = waveObject.GetComponent<Enemy_AI>();
-            if(aiRef == null)
+            if (aiRef == null)
             {
                 Debug.LogErrorFormat(waveObject, "Could not find reference to 'AI' script on object {0}", waveObject.name);
+                continue;
             }
-            else
+
+            aiRef.InitialiseAI(new object[] { spawnPos });
+
+            if (isEnhanced)
             {
-                aiRef.InitialiseAI(new object[] { spawnPos });
+                Debug.Log("I am enhancing DA AI");
+                aiRef.EnhanceAI();
             }
         }
-        _shouldSpawn = false;
+    }
+
+    private void SpawnBossWave()
+    {
+        AIType? bossType = WaveManager.GetCurrentBossWave();
+        if (bossType == null)
+        {
+            return;
+        }
+
+        GameObject bossToSpawn = bossType.Value._aiTypeReference;
+        Vector3 spawnPos = _spawnLocation.position + (Vector3.up * bossToSpawn.transform.localScale.y * 1.1f);
+        GameObject bossObj = Instantiate(bossToSpawn, spawnPos, _spawnLocation.rotation);
+        Enemy_AI aiRef = bossObj.GetComponent<Enemy_AI>();
+        if (aiRef == null)
+        {
+            Debug.LogErrorFormat(bossObj, "Could not find reference to 'AI' script on object {0}", bossObj.name);
+        }
+        else
+        {
+            aiRef.InitialiseAI(new object[] { spawnPos });
+        }
     }
 
 
