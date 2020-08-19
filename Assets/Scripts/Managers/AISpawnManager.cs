@@ -35,6 +35,7 @@ public class AISpawnManager : Singleton<AISpawnManager>
     private const string _enemyPrefabFilePath = "\\EnemyPrefabs\\";
     [SerializeField]
     private int _waveCooldown = 15;
+    [SerializeField]
     private RangeInt _waveSize = new RangeInt(4, 8);
 
 

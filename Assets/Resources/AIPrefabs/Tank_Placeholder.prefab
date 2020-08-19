@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3027c9d6838e5e340a5a8e3e1c737267, type: 2}
+  - {fileID: 2100000, guid: 1d561e2f8e8c6374d822b160904485be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +109,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageToPlayerHealth: 20
   _moneyToRewardOnDeath: 15
+  _enhancedMultiplier: 1.25
+  _materialColour: {r: 0.39441285, g: 0.9716981, b: 0.36209506, a: 1}
   endPosition: {x: 20, y: 6, z: 0}
   aiSpeed: 5
   snapDistance: 0.1

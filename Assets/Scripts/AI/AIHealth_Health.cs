@@ -21,9 +21,10 @@ public class AIHealth_Health : Health
     protected override void EvaluateHealth()
     {
         //Debug.Log("Current Health Is: " + currentHealth);
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !_isDead)
         {
             //Debug.Log("KILLED OBJECT!");
+            _isDead = true;
             _aiReference.AIKilled();
         }
     }

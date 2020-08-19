@@ -11,6 +11,8 @@ using UnityEngine;
 
 public class AI : MonoBehaviour
 {
+    protected Action a_forceDetonateIncomingWeapons;
+
     public virtual void InitialiseAI(object[] data)
     {
 
@@ -19,5 +21,20 @@ public class AI : MonoBehaviour
     public virtual void AIKilled()
     {
 
+    }
+
+    public virtual void DamageAI(int damageAmount)
+    {
+
+    }
+
+    public virtual void RegisterForceDetonateAction(Action a_forceDetonate)
+    {
+        a_forceDetonateIncomingWeapons += a_forceDetonate;
+    }
+
+    public virtual void DeregisterForceDetonateAction(Action a_forceDetonate)
+    {
+        a_forceDetonateIncomingWeapons -= a_forceDetonate;
     }
 }

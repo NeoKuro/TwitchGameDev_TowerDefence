@@ -1,5 +1,8 @@
 ---- TO DO ----
 
+-- Refactoring
+	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
+
 	
 -- Map Editor
 	-- Main Menu stuff
@@ -14,11 +17,6 @@
 
 -- Elements / Types of attacks
 	-- More tower types
-	
--- Effects 
-	-- Death FX of AI
-	-- Death FX of Player
-	-- Shooting Effects	
 -- Sounds		
 		
 		
@@ -27,21 +25,44 @@
 	- Shows all possible options for configuration such as HP, speed, attack power?
 	- Can toggle certain behaviours on/off
 	
+
+-- Effects 
+	-- Death FX of Player
 -- Player Avatar (Space ship?) which the camera is linked toggle
 	-- Can only build within a certain radius of player (some player character(?) can have larger radii)
 
+
+
+----IN PROGRESS-----
+
+	
+-- Effects 
+	-- Death FX of AI (Particles etc)
+	-- Weapon detonate effects
+
+
+
+----BUGS----
+
+-- Placing turrets in a triangle around the middle road (with the tip facing East), two of the three turrets don't shoot when expected to, the third mostly does but stops now and then for unknown reason
 
 
 
 
 ---- DONE ----
 
+		BUG -- Fixed issue where Cthulu was spawning as regular Minions 
+		BUG -- Fixed issue where AI 'unlocked status' was not being correctly updated
+		BUG -- On lose, if there are still enemies, the turrets keep on shooting them even though paused
+		BUG -- When AI reach the final destination, and they teleport back to the beginning, they keep getting more and more separated
 		
--- Boss / Enhanced AI 
-	- A boss AI would spawn alongside the regular wave (possible same type maybe not)
-	- Enhanced AI -- Slight variations on existing 'regular' AI. This spawns INSTEAD of the 'regular wave'
+	-- Effects			
+		-- Shooting Effects	
+			-- Added Weapon scripts
+			-- Added weapon effects
+			-- Moved the damage from towers to weapons		
+		-- Death FX of AI (change to red and fade out)
+			
 	
-	
--- AI
-	- Pre-scripted 'weighted' difficulty
-		
+	-- Object Pool
+		-- Created an Object Pooler and automated re-pooler script(?)

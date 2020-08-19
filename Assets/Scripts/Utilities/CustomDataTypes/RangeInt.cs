@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[Serializable]
 public class RangeInt
 {
     public int min = 0;

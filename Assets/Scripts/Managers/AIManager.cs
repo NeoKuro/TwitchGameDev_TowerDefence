@@ -23,6 +23,11 @@ public class AIManager : Singleton<AIManager>
         public GameObject _aiTypeReference;
         public Sprite _aiTypeIcon;
         public bool _unlocked;
+
+        public void SetUnlocked()
+        {
+            _unlocked = true;
+        }
     }
 
     [SerializeField]
@@ -100,6 +105,20 @@ public class AIManager : Singleton<AIManager>
         }
 
         List<AIType> availableAITypes = _aiTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= _bossesDefeated && !x._unlocked; }).ToList();
+        for (int i = 0; i < _aiTypeReferences.Count; i++)
+        {
+            for (int j = 0; j < availableAITypes.Count; j++)
+            {
+                if (_aiTypeReferences[i].Name != availableAITypes[j].Name)
+                {
+                    continue;
+                }
+                AIType tmp = _aiTypeReferences[i];
+                tmp._unlocked = true;
+                _aiTypeReferences[i] = tmp;
+                break;
+            }
+        }
         _unlockedAI.Add(availableAITypes[Random.Range(0, availableAITypes.Count)]);
     }
 
@@ -111,7 +130,22 @@ public class AIManager : Singleton<AIManager>
         }
 
         List<AIType> availableAITypes = _bossTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= _bossesDefeated && !x._unlocked; }).ToList();
-        _unlockedAI.Add(availableAITypes[Random.Range(0, availableAITypes.Count)]);
+        for (int i = 0; i < _bossTypeReferences.Count; i++)
+        {
+            for (int j = 0; j < availableAITypes.Count; j++)
+            {
+                if(_bossTypeReferences[i].Name != availableAITypes[j].Name)
+                {
+                    continue;
+                }
+                AIType tmp = _bossTypeReferences[i];
+                tmp._unlocked = true;
+                _bossTypeReferences[i] = tmp;
+                break;
+            }
+        }
+
+        _unlockedBosses.Add(availableAITypes[Random.Range(0, availableAITypes.Count)]);
     }
 
     private void EvaluateEnemies()

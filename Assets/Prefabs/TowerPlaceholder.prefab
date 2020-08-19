@@ -108,7 +108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 25
+  attackRadius: 4
   shootCooldown: 1
+  _weaponReference: {fileID: 6897986902222403194, guid: 0904772f92d22c34398f3d9305015410,
+    type: 3}
 --- !u!114 &7556450549139931330
 MonoBehaviour:
   m_ObjectHideFlags: 0
