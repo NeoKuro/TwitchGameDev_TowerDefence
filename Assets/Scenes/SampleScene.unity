@@ -7468,7 +7468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8632,6 +8632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 0
 --- !u!135 &320576287
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11717,7 +11718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -28787,6 +28788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 0
 --- !u!135 &943721747
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31879,6 +31881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 0
 --- !u!135 &1028903408
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -40667,6 +40670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 1
 --- !u!135 &1283877728
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -49156,7 +49160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -50172,6 +50176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 0
 --- !u!135 &1568333271
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -50634,7 +50639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -55621,7 +55626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -61800,6 +61805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4aba5f98ccfe94aa7eee4dc1bc8dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFinalDestination: 0
 --- !u!135 &1922858314
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIPathingManager : Singleton<AIPathingManager> 
+public class AIPathingManager : Singleton<AIPathingManager>
 {
     public List<AIPathingWaypoint> _allPathingWaypoints = new List<AIPathingWaypoint>();
 
@@ -28,9 +28,12 @@ public class AIPathingManager : Singleton<AIPathingManager>
     {
         int currentIndex = -1;
 
-        if(currentWaypoint != null && _allPathingWaypoints.Contains(currentWaypoint))
+        if (currentWaypoint != null && !currentWaypoint.IsFinalDestination)
         {
-            currentIndex = _allPathingWaypoints.IndexOf(currentWaypoint);
+            if (_allPathingWaypoints.Contains(currentWaypoint))
+            {
+                currentIndex = _allPathingWaypoints.IndexOf(currentWaypoint);
+            }
         }
 
         return GetNextWaypoint_Internal(currentIndex);
@@ -53,7 +56,7 @@ public class AIPathingManager : Singleton<AIPathingManager>
         {
             Debug.LogErrorFormat("AI Pathing Manager is null! Its not supposed to be!");
             return null;
-        }        
+        }
 
         return Instance.GetNextWaypoint_Internal(currentWaypoint);
     }

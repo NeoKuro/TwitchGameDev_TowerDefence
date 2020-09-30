@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5782083089315501229}
   - component: {fileID: -3215235284607866231}
   - component: {fileID: 5782083089315501225}
+  - component: {fileID: 8772965909838061225}
+  - component: {fileID: -6428130766853617792}
   m_Layer: 0
   m_Name: Cthulu_Placeholder
   m_TagString: Untagged
@@ -107,12 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d83de0ef6ffeef41a1228e556cefec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enhancedMultiplier: 1
   _damageToPlayerHealth: 100
   _moneyToRewardOnDeath: 100
-  _enhancedMultiplier: 1
-  endPosition: {x: 20, y: 6, z: 0}
-  aiSpeed: 3
-  snapDistance: 0.1
+  _deathColour: {r: 1, g: 0, b: 0, a: 1}
+  _aiRecolouriser: {fileID: 0}
 --- !u!114 &5782083089315501225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +127,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 1000
+--- !u!114 &8772965909838061225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782083089315501231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c7413302426084a99a82bc91e46cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialColour: {r: 0.2971698, g: 1, b: 0.59742963, a: 1}
+  _timeToRecolourise: 1
+  _renderer: {fileID: 0}
+--- !u!114 &-6428130766853617792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782083089315501231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 756d25528c394e84287fcf21698bd48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiSpeed: 3
+  snapDistance: 0.1

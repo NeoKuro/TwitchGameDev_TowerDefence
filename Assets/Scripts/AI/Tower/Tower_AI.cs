@@ -13,7 +13,6 @@ using Random = UnityEngine.Random;
 
 public class Tower_AI : AI
 {
-    public uint damageAmount = 10;
     public float attackRadius = 3f;
     public float shootCooldown = 1;
 

@@ -1,45 +1,57 @@
+[1-10] 1 = trivial / easy and quick  --- 10 is very hard and will take multiple streams
 ---- TO DO ----
 
--- Refactoring
-	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
-
 	
--- Map Editor
+-- Map Editor [7]
 	-- Main Menu stuff
 
--- 3D 
+-- 3D [8]
+	-- 3D Camera
 	-- Sci fi / Space ships etc
 	-- ASteroid fields, Mountains on Planets
 	-- Space Stations, Laser Stations / Towers
 
--- Bigger Maps / Camera Panning
--- UI design / assets
 
--- Elements / Types of attacks
+-- Bigger Maps / Camera Panning [3]
+-- UI design [3]
+-- UI Assets 
+
+
+-- Elements / Types of attacks [5]
 	-- More tower types
 -- Sounds		
 		
 		
--- AI Designer Tool
+-- AI Designer Tool [7]	
 	- Editor Popup tool
 	- Shows all possible options for configuration such as HP, speed, attack power?
 	- Can toggle certain behaviours on/off
 	
 
--- Effects 
+-- Effects [9]
 	-- Death FX of Player
--- Player Avatar (Space ship?) which the camera is linked toggle
-	-- Can only build within a certain radius of player (some player character(?) can have larger radii)
+		-- Gradually 'cracking' the player's screen to simulate battle damage as the player's health goes down
+			(Imagine a 3D tactical display on a table that gets cracked)
+		-- On death, explosions. Smashed Screen. Bad stuff!
+	-- Death FX of AI (Particles etc)
+		-- Sections / portions of a ship (2D) cut up and float away like wreckage and fade out (alpha) after a timer
+		-- For 3D, generic wreckage pieces such as girders, beams, hull plating etc that isn't too specific to one design also float away but then shrink and disappear after a timer
+			
+
 
 
 
 ----IN PROGRESS-----
 
-	
--- Effects 
-	-- Death FX of AI (Particles etc)
-	-- Weapon detonate effects
+-- Refactoring [3]
+	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
+		--- Tower_AI script
+			- DamageAmount Obsolete X
+			- Weapons / attacks
 
+			
+-- Player Avatar (Space ship?) which the camera is linked toggle [4]
+	-- Can only build within a certain radius of player (some player character(?) can have larger radii)
 
 
 ----BUGS----
@@ -51,18 +63,40 @@
 
 ---- DONE ----
 
-		BUG -- Fixed issue where Cthulu was spawning as regular Minions 
-		BUG -- Fixed issue where AI 'unlocked status' was not being correctly updated
-		BUG -- On lose, if there are still enemies, the turrets keep on shooting them even though paused
-		BUG -- When AI reach the final destination, and they teleport back to the beginning, they keep getting more and more separated
+
+
+
+
+-- Change Log (2020/09/16) --
+
+-- Refactoring
+	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
+		--- Tower_AI script
+			- DamageAmount Obsolete X
+		--- Enemy_AI script
+			- Tidy up Inspector ([Headers]) X
+			- Material Colour / Death Colour -- Colourizer script? X
+			- EndPosition Obsolete X
+			- Movement stuff X
+
+
+
+
+
+-- Change Log (2020/08/19) --
+
+	BUG -- Fixed issue where Cthulu was spawning as regular Minions 
+	BUG -- Fixed issue where AI 'unlocked status' was not being correctly updated
+	BUG -- On lose, if there are still enemies, the turrets keep on shooting them even though paused
+	BUG -- When AI reach the final destination, and they teleport back to the beginning, they keep getting more and more separated
 		
 	-- Effects			
 		-- Shooting Effects	
 			-- Added Weapon scripts
 			-- Added weapon effects
 			-- Moved the damage from towers to weapons		
-		-- Death FX of AI (change to red and fade out)
-			
+		-- Death FX of AI (change to red and fade out)			
+		-- Weapon detonate effects
 	
 	-- Object Pool
 		-- Created an Object Pooler and automated re-pooler script(?)

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5782083089315501229}
   - component: {fileID: 5782083089315501228}
   - component: {fileID: 5782083089315501225}
+  - component: {fileID: 2620272135019513702}
+  - component: {fileID: 5690487445562663244}
   m_Layer: 0
   m_Name: Tank_Placeholder
   m_TagString: Untagged
@@ -107,13 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d33b5845e5dc1341919079055469ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enhancedMultiplier: 1.25
   _damageToPlayerHealth: 20
   _moneyToRewardOnDeath: 15
-  _enhancedMultiplier: 1.25
-  _materialColour: {r: 0.39441285, g: 0.9716981, b: 0.36209506, a: 1}
-  endPosition: {x: 20, y: 6, z: 0}
-  aiSpeed: 5
-  snapDistance: 0.1
+  _deathColour: {r: 1, g: 0, b: 0, a: 1}
+  _aiRecolouriser: {fileID: 0}
 --- !u!114 &5782083089315501225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +127,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 250
+--- !u!114 &2620272135019513702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782083089315501231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c7413302426084a99a82bc91e46cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialColour: {r: 1, g: 0.4292453, b: 0.4292453, a: 1}
+  _timeToRecolourise: 1
+  _renderer: {fileID: 0}
+--- !u!114 &5690487445562663244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782083089315501231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 756d25528c394e84287fcf21698bd48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiSpeed: 5
+  snapDistance: 0.1

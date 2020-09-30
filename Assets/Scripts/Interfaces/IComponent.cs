@@ -1,5 +1,5 @@
 //-----------------------------\\
-//     Project Tower Defence
+//      Project Tower Defence
 //       Twitch: NeoKuro
 //    Author: Joshua Hughes
 //-----------------------------\\
@@ -9,7 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Static_Weapon : Weapon
+public interface IComponent
 {
-    // Instantaneous weapons such as lasers, or aura effects (support), tesla coil example
+    void RegisterComponentUpdate(Action a);
+    void DeregisterComponentUpdate(Action a);
 }
