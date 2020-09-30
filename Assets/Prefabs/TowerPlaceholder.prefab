@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7556450549139931390}
   - component: {fileID: 7556450549139931331}
   - component: {fileID: 7556450549139931330}
+  - component: {fileID: 4123202608302294454}
+  - component: {fileID: 8028959239877668824}
   m_Layer: 0
   m_Name: TowerPlaceholder
   m_TagString: Untagged
@@ -107,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ea319ae8281f64eaf776e5531f6ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 25
+  _validTargetByDefault: 0
   attackRadius: 4
   shootCooldown: 1
   _weaponReference: {fileID: 6897986902222403194, guid: 0904772f92d22c34398f3d9305015410,
@@ -125,3 +127,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
+--- !u!114 &4123202608302294454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556450549139931389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8cd83ed97e33a4283fa2077394c937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetingPeriod: 2
+  _acquireNewTargetOnInvalid: 1
+  _targetingRadius: 4
+--- !u!114 &8028959239877668824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556450549139931389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1521508f8c6bcee408bbb8e897c81d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ability: {fileID: 11400000, guid: 2d8dea36df6172646b3234f14687cf27, type: 2}

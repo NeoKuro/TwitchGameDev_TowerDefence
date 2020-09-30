@@ -11,123 +11,44 @@ using UnityEngine;
 
 using Random = UnityEngine.Random;
 
-public class Tower_AI : AI
+public class Tower_AI : AI, ITarget, IAbilitiesBehaviour
 {
-    public float attackRadius = 3f;
-    public float shootCooldown = 1;
-
-    [SerializeField]
-    private GameObject _weaponReference;
-
-    private Enemy_AI _currentTarget;
-
-
-    private float _nextShootTime = 0f;
-    private float _attackRadiusSq = 9f;
-
-    private void Start()
+    private Targeting _targetingComponent;
+    public Targeting TargetingComponent
     {
-        _attackRadiusSq = attackRadius * attackRadius;
-    }
-
-    private void Update()
-    {
-        if (GameManager.Instance.hasGameOvered)
+        get
         {
-            return;
-        }
-
-
-        Targetting();
-    }
-
-
-    private void Targetting()
-    {
-        if (Time.time < _nextShootTime)
-        {
-            return;
-        }
-
-        // Stuff in here ran each frame
-        if (!TargetIsValid(_currentTarget))
-        {
-            _currentTarget = null;
-            if (AcquireTarget())
+            if(_targetingComponent == null)
             {
-                ShootTarget();
+                _targetingComponent = transform.root.GetComponentInChildren<Targeting>();
+                if(_targetingComponent == null)
+                {
+                    Debug.LogErrorFormat(this, "This Tower AI does not have a targeting script on it anywhere! I added one automatically with default settings!");
+                    _targetingComponent = gameObject.AddComponent<Targeting>();
+                }
             }
-        }
-        else
-        {
-            ShootTarget();
+
+            return _targetingComponent;
         }
     }
-
-    private bool AcquireTarget()
+    private AbilitySystem _abilitySystemComponent;
+    public AbilitySystem AbilitySystemComponent
     {
-        List<Enemy_AI> enemies = AIManager.Instance.GetEnemyAI();
-        if (enemies.Count == 0)
+        get
         {
-            return false;
-        }
-
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            //float distSq = UsefulMethods.CheapDistanceSquared(transform.position, enemies[i].transform.position);
-            if(TargetIsValid(enemies[i]))
+            if (_abilitySystemComponent == null)
             {
-                _currentTarget = enemies[i];
-                break;
+                _abilitySystemComponent = transform.root.GetComponentInChildren<AbilitySystem>();
+                if (_abilitySystemComponent == null)
+                {
+                    Debug.LogErrorFormat(this, "This Tower AI does not have an AbilitySystem script on it anywhere! I added one automatically with default settings!");
+                    _abilitySystemComponent = gameObject.AddComponent<AbilitySystem>();
+                }
             }
-        }
 
-        if(_currentTarget == null)
-        {
-            return false;
+            return _abilitySystemComponent;
         }
-
-        //int randNo = Random.Range(0, enemies.Count);
-        //_currentTarget = enemies[randNo];
-        return true;
     }
 
-    private bool TargetIsValid(Enemy_AI enemy)
-    {
-        if(enemy == null)
-        {
-            return false;
-        }
 
-        if (enemy.IsDead)
-        {
-            return false;
-        }
-
-        float distSq = UsefulMethods.CheapDistanceSquared(transform.position, enemy.transform.position);
-        if (distSq >= _attackRadiusSq)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    private void ShootTarget()
-    {
-        _nextShootTime = Time.time + shootCooldown;
-        GameObject bullet = ObjectPool.GetObjectOfType(_weaponReference);
-        Weapon w = bullet.GetComponentInChildren<Weapon>();
-
-        if(w == null)
-        {
-            w = bullet.AddComponent<Weapon>();
-        }
-
-        w.Initialise(transform.position, _currentTarget);
-
-
-        //_currentTarget.GetComponent<AIHealth_Health>().ChangeHealth((int)-damageAmount);
-
-    }
 }

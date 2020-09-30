@@ -5,8 +5,9 @@
 -- Map Editor [7]
 	-- Main Menu stuff
 
--- 3D [8]
-	-- 3D Camera
+-- Art [8]
+	-- 3D or 2D?
+	-- Camera
 	-- Sci fi / Space ships etc
 	-- ASteroid fields, Mountains on Planets
 	-- Space Stations, Laser Stations / Towers
@@ -42,13 +43,6 @@
 
 
 ----IN PROGRESS-----
-
--- Refactoring [3]
-	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
-		--- Tower_AI script
-			- DamageAmount Obsolete X
-			- Weapons / attacks
-
 			
 -- Player Avatar (Space ship?) which the camera is linked toggle [4]
 	-- Can only build within a certain radius of player (some player character(?) can have larger radii)
@@ -64,6 +58,15 @@
 ---- DONE ----
 
 
+
+
+
+-- Change Log (2020/09/30)
+
+-- Refactoring [3]
+	-- Separate code into specific classes where makes sense. For instance, Health Code out of Enemy_AI into Health class
+		--- Tower_AI script
+			- Weapons / attacks
 
 
 

@@ -9,10 +9,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour
+public abstract class AI : MonoBehaviour, IComponent
 {
     protected Action a_forceDetonateIncomingWeapons;
+    protected Action a_UpdateComponents;
 
+    [Header("Basic AI Setup")]
+    [SerializeField]
+    private bool _validTargetByDefault = true;
+
+    public virtual bool IsValidTarget
+    {
+        get
+        {
+            return _validTargetByDefault;
+        }
+    }
+
+    protected virtual void Update()
+    {
+        if (GameManager.Instance.hasGameOvered)
+        {
+            return;
+        }
+
+        a_UpdateComponents?.Invoke();
+    }
 
     public virtual void InitialiseAI(object[] data)
     {
@@ -37,5 +59,15 @@ public class AI : MonoBehaviour
     public virtual void DeregisterForceDetonateAction(Action a_forceDetonate)
     {
         a_forceDetonateIncomingWeapons -= a_forceDetonate;
+    }
+
+    public void RegisterComponentUpdate(Action a)
+    {
+        a_UpdateComponents += a;
+    }
+
+    public void DeregisterComponentUpdate(Action a)
+    {
+        a_UpdateComponents -= a;
     }
 }

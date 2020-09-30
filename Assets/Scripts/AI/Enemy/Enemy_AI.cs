@@ -12,8 +12,6 @@ using UnityEngine.UIElements;
 
 public class Enemy_AI : AI, IMovement
 {
-    private Action a_UpdateComponents;
-
     [Header("Ai Core Settings")]
     [SerializeField, Range(1f, 10f)]
     private float _enhancedMultiplier = 1.25f;
@@ -34,11 +32,16 @@ public class Enemy_AI : AI, IMovement
     private AIMovement _aiMovement;
 
 
-    public bool IsDead
+    public override bool IsValidTarget
     {
         get
         {
-            return _healthComponent != null ? _healthComponent._isDead : true;
+            if(!base.IsValidTarget)
+            {
+                return false;
+            }
+
+            return _healthComponent != null ? !_healthComponent._isDead : true;
         }
     }
 
@@ -59,11 +62,6 @@ public class Enemy_AI : AI, IMovement
         }
 
         _aiMovement = transform.root.GetComponentInChildren<AIMovement>();
-    }
-
-    private void Update()
-    {
-        a_UpdateComponents?.Invoke();
     }
 
     public bool CanMove()
@@ -101,16 +99,5 @@ public class Enemy_AI : AI, IMovement
         _damageToPlayerHealth *= Mathf.RoundToInt(_damageToPlayerHealth * _enhancedMultiplier);
         _moneyToRewardOnDeath = Mathf.RoundToInt(_moneyToRewardOnDeath * _enhancedMultiplier);
         _aiMovement.SetEnhancedAI(_enhancedMultiplier);
-    }
-
-
-    public void RegisterComponentUpdate(Action a)
-    {
-        a_UpdateComponents += a;
-    }
-
-    public void DeregisterComponentUpdate(Action a)
-    {
-        a_UpdateComponents -= a;
     }
 }
