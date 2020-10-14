@@ -18,6 +18,18 @@ using Random = UnityEngine.Random;
 
 public class WaveManager : Singleton<WaveManager>
 {
+    public struct WavePredictionAI
+    {
+        public AIType _aitype;
+        public CombatTypeBase _combatType;
+
+        public WavePredictionAI(AIType ai, CombatTypeBase combatType)
+        {
+            _aitype = ai;
+            _combatType = combatType;
+        }
+    }
+
     private Action a_OnWaveIncremented;
 
     [SerializeField]
@@ -33,27 +45,46 @@ public class WaveManager : Singleton<WaveManager>
     private int _waveHiddenRange = 5;
     [SerializeField]
     private int _bossFrequency = 10;
+    [SerializeField]
+    private int _waveCombatTypePersistanceBase = 2;
     [SerializeField, Range(0.05f, 1)]
     private float _chanceOfEnhancedWave = 0.1f;
 
-    private List<AIType> _wavePredictionList = new List<AIType>();
-    private List<AIType?> _bossPredictionList = new List<AIType?>();
+    private List<WavePredictionAI> _wavePredictionList = new List<WavePredictionAI>();
+    private List<WavePredictionAI?> _bossPredictionList = new List<WavePredictionAI?>();
 
+    private int _currentWavePrediction = 0;
+    private int _currentBossesDefeatedPrediction = 0;
+    private int _currentCombatTypePersistance = 2;
     private int _totalWavePredictionSize = 10;
 
 
     protected override void Awake()
     {
         base.Awake();
+        Initialise();
+    }
+
+    public override void Initialise()
+    {
         _waveCountTxt.text = _waveCount.ToString();
-
         _totalWavePredictionSize = _wavePredictionRange + _waveHiddenRange;
-
+        _currentCombatTypePersistance = _waveCombatTypePersistanceBase;
         // Create a list of waves up to _wavePredictionRange + 5;
         PopulateWavePredictionList();
         InitialiseBossPredictionList();
         a_OnWaveIncremented?.Invoke();
+    }
 
+    public override void OnRetryExecuted()
+    {
+        _waveCount = 0;
+        _currentWavePrediction = 0;
+        _currentBossesDefeatedPrediction = 0;
+        _currentCombatTypePersistance = _waveCombatTypePersistanceBase;
+        _wavePredictionList.Clear();
+        _bossPredictionList.Clear();
+        Initialise();
     }
 
     private void IncrementWaveCount_Internal()
@@ -69,7 +100,7 @@ public class WaveManager : Singleton<WaveManager>
         // Go to next wave
         // Generate new hidden wave
 
-        Debug.LogFormat("The NEW wave is: {0}. Good Luck", _wavePredictionList[0].Name);
+        Debug.LogFormat("The NEW wave is: {0}. Good Luck", _wavePredictionList[0]._aitype.Name);
     }
 
     private void RemoveOnWaveIncrementedActionInternal(Action toRemove)
@@ -91,7 +122,10 @@ public class WaveManager : Singleton<WaveManager>
         {
             if ((i + 1) % _bossFrequency == 0)
             {
-                _bossPredictionList.Add(AIManager.GetRandomBossType());
+                AIType ai = AIManager.GetRandomBossType();
+                WavePredictionAI newBoss = new WavePredictionAI(ai, ai._aiTypeReference.AICombatType);
+
+                _bossPredictionList.Add(newBoss);
             }
             else
             {
@@ -100,31 +134,35 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
-    private Sprite[] GetInitialWavePredictionInternal()
+    private WavePredictionAI[] GetInitialWavePredictionInternal()
     {
-        Sprite[] sprites = new Sprite[_wavePredictionRange];
+        WavePredictionAI[] wavePrediction = new WavePredictionAI[_wavePredictionRange];
 
-        for (int i = 0; i < sprites.Length; i++)
+        for (int i = 0; i < _wavePredictionRange; i++)
         {
-            sprites[i] = _wavePredictionList[i]._aiTypeIcon;
+            wavePrediction[i] = _wavePredictionList[i];
         }
 
-        return sprites;
+        return wavePrediction;
     }
 
-    private Sprite[] GetInitialWavePrediction_BossInternal()
+    private WavePredictionAI?[] GetInitialWavePrediction_BossInternal()
     {
-        Sprite[] sprites = new Sprite[_wavePredictionRange];
+        WavePredictionAI?[] wavePrediction = new WavePredictionAI?[_wavePredictionRange];
 
-        for (int i = 0; i < sprites.Length; i++)
+        for (int i = 0; i < _wavePredictionRange; i++)
         {
             if (_bossPredictionList[i].HasValue)
             {
-                sprites[i] = _bossPredictionList[i].Value._aiTypeIcon;
+                wavePrediction[i] = _bossPredictionList[i].Value;
+            }
+            else
+            {
+                wavePrediction[i] = null;
             }
         }
 
-        return sprites;
+        return wavePrediction;
     }
 
     private void UpdateWavePredictions()
@@ -140,9 +178,31 @@ public class WaveManager : Singleton<WaveManager>
 
     private void PopulateWavePredictionList()
     {
+        // Maintain the same Combat TYpe for X rounds (see difficulty later on?)
+        CombatTypeBase _chosenType = _wavePredictionList.Count > 0 ? _wavePredictionList[_wavePredictionList.Count - 1]._combatType : null;
         while (_wavePredictionList.Count < _totalWavePredictionSize)
         {
-            _wavePredictionList.Add(AIManager.GetRandomAIType());
+            _currentWavePrediction++;
+
+            if (_chosenType == null || (_currentWavePrediction - 1) % _currentCombatTypePersistance == 0)
+            {
+                if (_chosenType != null)
+                {
+                    _currentCombatTypePersistance = _currentCombatTypePersistance <= 1 ? 1 : _currentCombatTypePersistance - 1;
+                }
+
+                _chosenType = AIManager.Instance.AvailableCombatTypes[Random.Range(0, AIManager.Instance.AvailableCombatTypes.Count)];
+            }
+
+            AIType ai = AIManager.GetRandomAIType();
+            WavePredictionAI newAI = new WavePredictionAI(ai, _chosenType);
+            _wavePredictionList.Add(newAI);
+
+            if (_currentWavePrediction % _bossFrequency == 0)
+            {
+                _currentBossesDefeatedPrediction++;
+                AIManager.BossDefeatPredicted(_currentBossesDefeatedPrediction);
+            }
         }
     }
 
@@ -152,7 +212,10 @@ public class WaveManager : Singleton<WaveManager>
         int desiredBossPredictionsInList = _bossPredictionList.Count / _bossFrequency;
         if (_bossPredictionList.Where(x => { return x != null; }).Count() < desiredBossPredictionsInList)
         {
-            _bossPredictionList.Add(AIManager.GetRandomBossType());
+            AIType ai = AIManager.GetRandomBossType();
+            WavePredictionAI newBoss = new WavePredictionAI(ai, ai._aiTypeReference.AICombatType);
+
+            _bossPredictionList.Add(newBoss);
             return;
         }
 
@@ -166,22 +229,22 @@ public class WaveManager : Singleton<WaveManager>
         Instance?.IncrementWaveCount_Internal();
     }
 
-    public static AIType GetCurrentWave()
+    public static WavePredictionAI GetCurrentWave()
     {
         return Instance._wavePredictionList[0];
     }
 
-    public static AIType? GetCurrentBossWave()
+    public static WavePredictionAI? GetCurrentBossWave()
     {
         return Instance._bossPredictionList[0];
     }
 
-    public static AIType GetNextHiddenWave()
+    public static WavePredictionAI GetNextHiddenWave()
     {
         return Instance._wavePredictionList[Instance._wavePredictionRange - 1];
     }
 
-    public static AIType? GetNextHiddenBossWave()
+    public static WavePredictionAI? GetNextHiddenBossWave()
     {
         return Instance._bossPredictionList[Instance._wavePredictionRange - 1];
     }
@@ -196,12 +259,12 @@ public class WaveManager : Singleton<WaveManager>
         Instance?.RemoveOnWaveIncrementedActionInternal(newAction);
     }
 
-    public static Sprite[] GetInitialWavePrediction()
+    public static WavePredictionAI[] GetInitialWavePrediction()
     {
         return Instance?.GetInitialWavePredictionInternal();
     }
 
-    public static Sprite[] GetInitialWavePrediction_Boss()
+    public static WavePredictionAI?[] GetInitialWavePrediction_Boss()
     {
         return Instance?.GetInitialWavePrediction_BossInternal();
     }

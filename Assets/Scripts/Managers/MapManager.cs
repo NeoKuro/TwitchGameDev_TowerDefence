@@ -19,11 +19,21 @@ public class MapManager : Singleton<MapManager>
     protected override void Awake()
     {
         base.Awake();
+        Initialise();
+    }
+
+    public override void Initialise()
+    {
         _gridCellStatus = new bool[mapYSize][];
         for (int i = 0; i < mapYSize; i++)
         {
             _gridCellStatus[i] = new bool[mapXSize];
         }
+    }
+
+    public override void OnRetryExecuted()
+    {
+        Initialise();
     }
 
     private bool GetCellStateInternal(int cellX, int cellY)

@@ -11,6 +11,16 @@ using UnityEngine;
 
 public class Boss_EnemyAI : Enemy_AI
 {
+    [SerializeField]
+    private CombatTypeBase _forcedBossCombatType;
+
+    public override CombatTypeBase AICombatType => _forcedBossCombatType;
+
+    public override void InitialiseAI(object[] data, CombatTypeBase assignedCombatType)
+    {
+        base.InitialiseAI(data, _forcedBossCombatType);
+        _aiCombatType = _forcedBossCombatType;
+    }
 
     private void OnDisable()
     {

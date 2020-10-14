@@ -47,13 +47,24 @@ public class AISpawnManager : Singleton<AISpawnManager>
 
     protected override void Awake()
     {
-        base.Awake();
-        BeginSpawnWave();
+        base.Awake(); 
+        Initialise();
     }
 
     private void Update()
     {
         SpawnWave();
+    }
+
+    public override void Initialise()
+    {
+        BeginSpawnWave();
+    }
+
+    public override void OnRetryExecuted()
+    {
+        _waveSize = new RangeInt(4, 8);
+        Initialise();
     }
 
     private void IncreaseWaveDifficulty_Internal(int waveCountIncrease)
@@ -88,7 +99,8 @@ public class AISpawnManager : Singleton<AISpawnManager>
     private void SpawnMinionWave()
     {
         //GameObject objectToSpawn = _availableEnemyPrefabs[UnityEngine.Random.Range(0, _availableEnemyPrefabs.Count)];
-        GameObject objectToSpawn = WaveManager.GetCurrentWave()._aiTypeReference;
+        WaveManager.WavePredictionAI waveData = WaveManager.GetCurrentWave();
+        GameObject objectToSpawn = waveData._aitype._aiObjectReference;
         bool isEnhanced = WaveManager.GetChanceOfEnhancedAI();
 
         int toSpawnCount = _waveSize.Random;
@@ -103,7 +115,7 @@ public class AISpawnManager : Singleton<AISpawnManager>
                 continue;
             }
 
-            aiRef.InitialiseAI(new object[] { spawnPos });
+            aiRef.InitialiseAI(new object[] { spawnPos }, waveData._combatType);
 
             if (isEnhanced)
             {
@@ -115,13 +127,13 @@ public class AISpawnManager : Singleton<AISpawnManager>
 
     private void SpawnBossWave()
     {
-        AIType? bossType = WaveManager.GetCurrentBossWave();
+        WaveManager.WavePredictionAI? bossType = WaveManager.GetCurrentBossWave();
         if (bossType == null)
         {
             return;
         }
 
-        GameObject bossToSpawn = bossType.Value._aiTypeReference;
+        GameObject bossToSpawn = bossType.Value._aitype._aiObjectReference;
         Vector3 spawnPos = _spawnLocation.position + (Vector3.up * bossToSpawn.transform.localScale.y * 1.1f);
         GameObject bossObj = Instantiate(bossToSpawn, spawnPos, _spawnLocation.rotation);
         Enemy_AI aiRef = bossObj.GetComponent<Enemy_AI>();
@@ -131,7 +143,8 @@ public class AISpawnManager : Singleton<AISpawnManager>
         }
         else
         {
-            aiRef.InitialiseAI(new object[] { spawnPos });
+            // Passing in NULL for Combat Type because its already assigned within the Boss specifically
+            aiRef.InitialiseAI(new object[] { spawnPos }, null);
         }
     }
 

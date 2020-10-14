@@ -24,6 +24,10 @@ public class GameManager : Singleton<GameManager>
     private GameObject _ghostObject;
 
 
+    [SerializeField]
+    private List<MonoBehaviour> managers = new List<MonoBehaviour>();
+
+
     private void Update()
     {
         if (_currentCursorGameMode == GameMode.DEFAULT)
@@ -35,6 +39,26 @@ public class GameManager : Singleton<GameManager>
             ProcessBuildMode();
         }
 
+    }
+
+    public override void Initialise()
+    {
+
+    }
+
+    public override void OnRetryExecuted()
+    {
+        hasGameOvered = false;
+        _currentCursorGameMode = GameMode.DEFAULT;
+    }
+
+    // When retry button is pressed BEFORE the scene switch
+    public void OnRetry()
+    {
+        //for (int i = 0; i < managers.Count; i++)
+        //{
+        //    Singleton<T> x = managers[i] as Singleton<T>;
+        //}
     }
 
     private void SetCursorGameModeToBuildInternal(UIController.BuildObjectPairing ghostPrefab)

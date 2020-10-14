@@ -42,7 +42,7 @@ public class Offensive_Ability : AbilityBase
 
         // For "Artillery" weapons, could pass in an array of AI (Targets) and the WEAPON SCRIPT determines the median target location rather than it being
         //      pre-calcualted.
-        w.Initialise(initialPosition, target);
+        w.Initialise(initialPosition, target, _abilityCombatType);
 
     }
 }

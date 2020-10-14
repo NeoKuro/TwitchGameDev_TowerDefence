@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
 
@@ -37,6 +37,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
+    public abstract void Initialise();
+    public abstract void OnRetryExecuted();
+
     private static bool applicationIsQuitting = false;
     /// <summary>
     /// When Unity quits, it destroys objects in a random order.
@@ -48,7 +51,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     /// </summary>
     public void OnDestroy()
     {
-        applicationIsQuitting = true;
+        //applicationIsQuitting = true;
+        Application.quitting -= ApplicationQuitting;
     }
 
     protected virtual void Awake()
@@ -59,8 +63,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return;
         }
 
+        Application.quitting += ApplicationQuitting;
         applicationIsQuitting = false;
         _instance = this as T;
         //DontDestroyOnLoad(gameObject);
+    }
+
+    private void ApplicationQuitting()
+    {
+        applicationIsQuitting = true;
     }
 }

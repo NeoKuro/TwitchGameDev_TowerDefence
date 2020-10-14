@@ -18,9 +18,18 @@
 -- UI Assets 
 
 
--- Elements / Types of attacks [5]
-	-- More tower types
+	
 -- Sounds		
+
+-- Difficulty System / Progression [7]
+	-- Controls rate of Boss Spawns when starting a new game (IE Easy, Med, Difficult, Do you hate me?)
+	-- Controls how long the player is protected against 'strong' element types (IE those the player's chosen starting tech / tower is WEAK against)
+	-- Controls how quickly the wave sizes ramp up
+	-- Controls initial / starting wave sizes
+	-- Controls how long before a new element type is chosen at the start (IE if chooses Kinetic, at easy it might remain as kinetic for 5 rounds, at 'Do you hate me?' it might not have a protection / minimum)
+	-- Controls loot drops / income
+	-- Control health and damage offsets
+	-- Controls resistance modifiers (Medium could be 125% damage if strong or 75% damage if weak, Easy could be 150% damage is strong or 100% damage if weak, hard/brutal could be 100% damage if strong, and 25% damage if weak)
 		
 		
 -- AI Designer Tool [7]	
@@ -54,9 +63,15 @@
 
 
 
-
 ---- DONE ----
 
+-- Elements / Types of attacks [5]
+	-- More tower types
+		-- Kinetic			-- Railguns
+		-- Antimatter		-- Big kabooms
+		-- EM				-- Ion Cannons 
+		-- Thermal			-- Lasers
+		-- Mechanical		-- Nanites
 
 
 

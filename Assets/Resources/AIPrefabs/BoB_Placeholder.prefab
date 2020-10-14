@@ -115,6 +115,8 @@ MonoBehaviour:
   _moneyToRewardOnDeath: 100
   _deathColour: {r: 1, g: 0, b: 0, a: 1}
   _aiRecolouriser: {fileID: 0}
+  _forcedBossCombatType: {fileID: 11400000, guid: 50b368dcc0d92d64a9b963bef424d554,
+    type: 2}
 --- !u!114 &5782083089315501225
 MonoBehaviour:
   m_ObjectHideFlags: 0

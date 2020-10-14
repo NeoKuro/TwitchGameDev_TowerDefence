@@ -21,12 +21,25 @@ public class ObjectPool : Singleton<ObjectPool>
     [SerializeField]
     private List<PoolSettings> _poolSettings = new List<PoolSettings>();
 
+    private bool suppressAlreadyPresentLog = false;
+
     private Dictionary<GameObject, List<GameObject>> _objectPool = new Dictionary<GameObject, List<GameObject>>();
 
     protected override void Awake()
     {
         base.Awake();
+        Initialise();
+    }
+
+    public override void Initialise()
+    {
         InitialiseObjectPool();
+    }
+
+    public override void OnRetryExecuted()
+    {
+        suppressAlreadyPresentLog = true;
+        Initialise();
     }
 
     private void InitialiseObjectPool()
@@ -35,7 +48,10 @@ public class ObjectPool : Singleton<ObjectPool>
         {
             if (_objectPool.ContainsKey(_poolSettings[i].referenceToObject))
             {
-                Debug.LogErrorFormat("You already added this Object to the pool!");
+                if (!suppressAlreadyPresentLog)
+                {
+                    Debug.LogErrorFormat("You already added this Object to the pool!");
+                }
                 continue;
             }
 

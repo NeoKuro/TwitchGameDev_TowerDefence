@@ -7,12 +7,19 @@ using UnityEngine;
 public class ScriptableObjectCreator
 {
     private static string ability_Asset_Directory = @"Assets/ScriptableObjects/Abilities/";
+    private static string combat_Asset_Directory = @"Assets/ScriptableObjects/Combat/";
 
     #region - Create Assets -  
-    [MenuItem("Assets/Twitch/Scriptable Objects/Abilities/Create Offensive Ability")]
-    public static void CreateEarTraitAsset()
+    [MenuItem("Assets/Twitch/Scriptable Objects/Combat/Abilities/Create Offensive Ability")]
+    public static void CreateOffensiveAbility()
     {
         Offensive_Ability trait = CreateGenericAsset<Offensive_Ability>(ability_Asset_Directory + @"Offensive/", "NewOffensiveAbility.asset");
+    }
+
+    [MenuItem("Assets/Twitch/Scriptable Objects/Combat/Create Combat Type")]
+    public static void CreateCombatType()
+    {
+        CombatTypeBase trait = CreateGenericAsset<CombatTypeBase>(ability_Asset_Directory + @"CombatTypes/", "NewCombatType.asset");
     }
     #endregion - Create Assets - 
 

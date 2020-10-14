@@ -109,11 +109,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d83de0ef6ffeef41a1228e556cefec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _validTargetByDefault: 1
   _enhancedMultiplier: 1
   _damageToPlayerHealth: 100
   _moneyToRewardOnDeath: 100
   _deathColour: {r: 1, g: 0, b: 0, a: 1}
   _aiRecolouriser: {fileID: 0}
+  _forcedBossCombatType: {fileID: 11400000, guid: 36d868014005384499b669dde200cd16,
+    type: 2}
 --- !u!114 &5782083089315501225
 MonoBehaviour:
   m_ObjectHideFlags: 0

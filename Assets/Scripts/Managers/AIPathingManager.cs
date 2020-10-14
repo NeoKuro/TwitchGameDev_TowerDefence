@@ -13,6 +13,16 @@ public class AIPathingManager : Singleton<AIPathingManager>
 {
     public List<AIPathingWaypoint> _allPathingWaypoints = new List<AIPathingWaypoint>();
 
+    public override void Initialise()
+    {
+
+    }
+
+    public override void OnRetryExecuted()
+    {
+        Initialise();
+    }
+
     private AIPathingWaypoint GetNextWaypoint_Internal(int currentIndex)
     {
 

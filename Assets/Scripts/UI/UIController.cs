@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
 
     public void OnRetryButtonpressed()
     {
+        GameManager.Instance.OnRetry();
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }

@@ -20,7 +20,8 @@ public class AIManager : Singleton<AIManager>
     {
         public string Name;
         public int _minBossesBeforeUnlock;
-        public GameObject _aiTypeReference;
+        public GameObject _aiObjectReference;
+        public AI _aiTypeReference;
         public Sprite _aiTypeIcon;
         public bool _unlocked;
 
@@ -34,6 +35,8 @@ public class AIManager : Singleton<AIManager>
     private List<AIType> _aiTypeReferences = new List<AIType>();
     [SerializeField]
     private List<AIType> _bossTypeReferences = new List<AIType>();
+    [SerializeField]
+    private List<CombatTypeBase> _availableCombatTypes = new List<CombatTypeBase>();
 
     private int _bossesDefeated = 0;
 
@@ -43,12 +46,27 @@ public class AIManager : Singleton<AIManager>
 
     private Coroutine _spawnCoroutine = null;
 
+    public List<CombatTypeBase> AvailableCombatTypes => _availableCombatTypes;
+
 
     protected override void Awake()
     {
         base.Awake();
+        Initialise();
+    }
+
+    public override void Initialise()
+    {
         _unlockedAI.AddRange(_aiTypeReferences.Where(x => { return x._unlocked; }));
         _unlockedBosses.AddRange(_bossTypeReferences.Where(x => { return x._unlocked; }));
+    }
+
+    public override void OnRetryExecuted()
+    {
+        _unlockedAI.Clear();
+        _unlockedBosses.Clear();
+        _enemyAI.Clear();
+        Initialise();
     }
 
 
@@ -93,18 +111,24 @@ public class AIManager : Singleton<AIManager>
     private void BossDefeated_Internal()
     {
         _bossesDefeated++;
-        UnlockNewAIType();
-        UnlockNewBossType();
+        //UnlockNewAIType();
+        //UnlockNewBossType();
     }
 
-    private void UnlockNewAIType()
+    private void BossDefeatPredicted_Internal(int bossDefeatPredictionCount)
+    {
+        UnlockNewAIType(bossDefeatPredictionCount);
+        UnlockNewBossType(bossDefeatPredictionCount);
+    }
+
+    private void UnlockNewAIType(int bossDefeatPredictionCount)
     {
         if (_unlockedAI.Count >= _aiTypeReferences.Count)
         {
             return;
         }
 
-        List<AIType> availableAITypes = _aiTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= _bossesDefeated && !x._unlocked; }).ToList();
+        List<AIType> availableAITypes = _aiTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= bossDefeatPredictionCount && !x._unlocked; }).ToList();
         for (int i = 0; i < _aiTypeReferences.Count; i++)
         {
             for (int j = 0; j < availableAITypes.Count; j++)
@@ -116,20 +140,20 @@ public class AIManager : Singleton<AIManager>
                 AIType tmp = _aiTypeReferences[i];
                 tmp._unlocked = true;
                 _aiTypeReferences[i] = tmp;
+                _unlockedAI.Add(tmp);
                 break;
             }
         }
-        _unlockedAI.Add(availableAITypes[Random.Range(0, availableAITypes.Count)]);
     }
 
-    private void UnlockNewBossType()
+    private void UnlockNewBossType(int bossDefeatPredictionCount)
     {
         if (_unlockedBosses.Count >= _bossTypeReferences.Count)
         {
             return;
         }
 
-        List<AIType> availableAITypes = _bossTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= _bossesDefeated && !x._unlocked; }).ToList();
+        List<AIType> availableAITypes = _bossTypeReferences.Where(x => { return x._minBossesBeforeUnlock <= bossDefeatPredictionCount && !x._unlocked; }).ToList();
         for (int i = 0; i < _bossTypeReferences.Count; i++)
         {
             for (int j = 0; j < availableAITypes.Count; j++)
@@ -141,11 +165,10 @@ public class AIManager : Singleton<AIManager>
                 AIType tmp = _bossTypeReferences[i];
                 tmp._unlocked = true;
                 _bossTypeReferences[i] = tmp;
+                _unlockedBosses.Add(tmp);
                 break;
             }
         }
-
-        _unlockedBosses.Add(availableAITypes[Random.Range(0, availableAITypes.Count)]);
     }
 
     private void EvaluateEnemies()
@@ -184,6 +207,11 @@ public class AIManager : Singleton<AIManager>
     public static void BossDefeated()
     {
         Instance.BossDefeated_Internal();
+    }
+
+    public static void BossDefeatPredicted(int bossDefeatPredictionCount)
+    {
+        Instance.BossDefeatPredicted_Internal(bossDefeatPredictionCount);
     }
 
 }

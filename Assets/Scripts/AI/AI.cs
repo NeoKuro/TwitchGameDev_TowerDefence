@@ -18,6 +18,10 @@ public abstract class AI : MonoBehaviour, IComponent
     [SerializeField]
     private bool _validTargetByDefault = true;
 
+    protected CombatTypeBase _aiCombatType;
+
+    public virtual CombatTypeBase AICombatType => _aiCombatType;
+
     public virtual bool IsValidTarget
     {
         get
@@ -36,9 +40,9 @@ public abstract class AI : MonoBehaviour, IComponent
         a_UpdateComponents?.Invoke();
     }
 
-    public virtual void InitialiseAI(object[] data)
+    public virtual void InitialiseAI(object[] data, CombatTypeBase assignedCombatType)
     {
-
+        _aiCombatType = assignedCombatType;
     }
 
     public virtual void AIKilled()
@@ -46,7 +50,7 @@ public abstract class AI : MonoBehaviour, IComponent
         // IHEALTH
     }
 
-    public virtual void DamageAI(int damageAmount)
+    public virtual void DamageAI(int damageAmount, CombatTypeBase receivedDamageType)
     {
         // IHealth
     }

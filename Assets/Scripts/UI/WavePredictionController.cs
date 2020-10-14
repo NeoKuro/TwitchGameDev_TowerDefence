@@ -33,7 +33,6 @@ public class WavePredictionController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("ENABLE CALLED");
         WaveManager.AddOnWaveIncrementedAction(UpdatePredictionSpritesInternal);
     }
 
@@ -44,7 +43,7 @@ public class WavePredictionController : MonoBehaviour
 
     private void InitialisePredictionSprites()
     {
-        Sprite[] initialWavePrediction = WaveManager.GetInitialWavePrediction();
+        WaveManager.WavePredictionAI[] initialWavePrediction = WaveManager.GetInitialWavePrediction();
         for (int i = 0; i < initialWavePrediction.Length; i++)
         {
             if(i >= _wavePredictionImages.Count )
@@ -53,12 +52,13 @@ public class WavePredictionController : MonoBehaviour
                 break;
             }
 
-            _wavePredictionImages[i].sprite = initialWavePrediction[i];
-            
+            _wavePredictionImages[i].sprite = initialWavePrediction[i]._aitype._aiTypeIcon;
+            _wavePredictionImages[i].color = initialWavePrediction[i]._combatType.RepresentativeTypeColour;
+
         }
 
-        initialWavePrediction = WaveManager.GetInitialWavePrediction_Boss();
-        for (int i = 0; i < initialWavePrediction.Length; i++)
+        WaveManager.WavePredictionAI?[] initialBossWavePrediction = WaveManager.GetInitialWavePrediction_Boss();
+        for (int i = 0; i < initialBossWavePrediction.Length; i++)
         {
             if (i >= _bossPredictionImages.Count)
             {
@@ -66,15 +66,15 @@ public class WavePredictionController : MonoBehaviour
                 break;
             }
 
-            if(initialWavePrediction[i] == null)
+            if(initialBossWavePrediction[i] == null)
             {
                 _bossPredictionImages[i].enabled = false;
             }
             else
             {
-                _bossPredictionImages[i].sprite = initialWavePrediction[i];
+                _bossPredictionImages[i].sprite = initialBossWavePrediction[i].Value._aitype._aiTypeIcon;
                 _bossPredictionImages[i].enabled = true;
-                _bossPredictionImages[i].color = Color.white;
+                _bossPredictionImages[i].color = initialBossWavePrediction[i].Value._combatType.RepresentativeTypeColour;
             }
         }
     }
@@ -91,7 +91,9 @@ public class WavePredictionController : MonoBehaviour
         {
             if (i == _wavePredictionImages.Count - 1)
             {
-                _wavePredictionImages[i].sprite = WaveManager.GetNextHiddenWave()._aiTypeIcon;
+                WaveManager.WavePredictionAI waveAI = WaveManager.GetNextHiddenWave();
+                _wavePredictionImages[i].sprite = waveAI._aitype._aiTypeIcon;
+                _wavePredictionImages[i].color = waveAI._combatType.RepresentativeTypeColour;
                 return;
             }
 
@@ -101,12 +103,13 @@ public class WavePredictionController : MonoBehaviour
 
     private void UpdateBossPredictionSprite()
     {
-        AIType? temp = WaveManager.GetNextHiddenBossWave();
+        WaveManager.WavePredictionAI? temp = WaveManager.GetNextHiddenBossWave();
         for (int i = 0; i < _bossPredictionImages.Count; i++)
         {
             if (i == _bossPredictionImages.Count - 1)
             {
-                _bossPredictionImages[i].sprite = temp.HasValue ? temp.Value._aiTypeIcon : null;
+                _bossPredictionImages[i].sprite = temp.HasValue ? temp.Value._aitype._aiTypeIcon : null;
+                _bossPredictionImages[i].color = temp.HasValue ? temp.Value._combatType.RepresentativeTypeColour : Color.white;
                 _bossPredictionImages[i].enabled = temp.HasValue;
                 return;
             }

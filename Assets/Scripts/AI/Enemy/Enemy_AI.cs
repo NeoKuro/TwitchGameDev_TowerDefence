@@ -83,7 +83,7 @@ public class Enemy_AI : AI, IMovement
         _aiRecolouriser.BeginRecolourise(_deathColour, true);
     }
 
-    public override void DamageAI(int damageAmount)
+    public override void DamageAI(int damageAmount, CombatTypeBase weaponType)
     {
         if (_healthComponent == null)
         {
@@ -91,6 +91,7 @@ public class Enemy_AI : AI, IMovement
             return;
         }
 
+        damageAmount = weaponType.GetModifiedDamage(damageAmount, _aiCombatType);
         _healthComponent.ChangeHealth(damageAmount);
     }
 

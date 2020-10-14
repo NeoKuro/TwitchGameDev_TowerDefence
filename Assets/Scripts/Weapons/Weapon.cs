@@ -17,8 +17,10 @@ public class Weapon : MonoBehaviour
     private Vector3 _positionOffset = new Vector3(0, 0, -1f);
     [SerializeField]
     private GameObject _detonateEffects;
+    
 
     protected AI _currentTarget;
+    protected CombatTypeBase _weaponType;
     protected ParticleSystem _pSystem;
     protected Renderer[] _renderers;
 
@@ -44,13 +46,20 @@ public class Weapon : MonoBehaviour
 
     }
 
-    public virtual void Initialise(Vector3 startPos, AI target)
+    public virtual void Initialise(Vector3 startPos, AI target, CombatTypeBase weaponType)
     {
+        if(weaponType == null)
+        {
+            Debug.LogErrorFormat(this, "Weapon type passed in is NULL!");
+            return;
+        }
+
         _pSystem.Clear();
         _pSystem.Play();
         _hasDetonated = false;
         transform.position = startPos + _positionOffset;
         _currentTarget = target;
+        _weaponType = weaponType;
         _currentTarget.RegisterForceDetonateAction(ForceDetonateWeapon);
         gameObject.SetActive(true);
         for (int i = 0; i < _renderers.Length; i++)
@@ -63,7 +72,7 @@ public class Weapon : MonoBehaviour
     {
         if (_currentTarget != null)
         {
-            _currentTarget.DamageAI((int)-_damageToAI);
+            _currentTarget.DamageAI((int)-_damageToAI, _weaponType);
             _currentTarget.DeregisterForceDetonateAction(ForceDetonateWeapon);
         }
 
@@ -75,6 +84,12 @@ public class Weapon : MonoBehaviour
         }
 
         _hasDetonated = true;
+
+        if(!gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         StartCoroutine(DisableWeaponAfterTime());
     }
 

@@ -64373,35 +64373,51 @@ MonoBehaviour:
   _aiTypeReferences:
   - Name: Rogue_Placeholder
     _minBossesBeforeUnlock: 1
-    _aiTypeReference: {fileID: 5782083089315501231, guid: 13f341671d68e6a4eafc05ac4cc320a5,
+    _aiObjectReference: {fileID: 5782083089315501231, guid: 13f341671d68e6a4eafc05ac4cc320a5,
       type: 3}
-    _aiTypeIcon: {fileID: 21300000, guid: 789c536c9ba1f8a48ae5de2ce3cddd25, type: 3}
+    _aiTypeReference: {fileID: 5782083089315501228, guid: 13f341671d68e6a4eafc05ac4cc320a5,
+      type: 3}
+    _aiTypeIcon: {fileID: 21300000, guid: af5b698f3007d494f934fdbb29314010, type: 3}
     _unlocked: 0
   - Name: Tank_Placeholder
     _minBossesBeforeUnlock: 1
-    _aiTypeReference: {fileID: 5782083089315501231, guid: 94b71d6e1aeec93419d6a54ddc287773,
+    _aiObjectReference: {fileID: 5782083089315501231, guid: 94b71d6e1aeec93419d6a54ddc287773,
       type: 3}
-    _aiTypeIcon: {fileID: 21300000, guid: 894fbf102cfa7704f84d77166e6586f9, type: 3}
+    _aiTypeReference: {fileID: 5782083089315501228, guid: 94b71d6e1aeec93419d6a54ddc287773,
+      type: 3}
+    _aiTypeIcon: {fileID: 21300000, guid: 44a9adca2fda8ae4cb2f39291cb3b8d9, type: 3}
     _unlocked: 0
   - Name: Minion_Placeholder
     _minBossesBeforeUnlock: 0
-    _aiTypeReference: {fileID: 5782083089315501231, guid: 21e1f67a1f8f2884893bd97ea3f350af,
+    _aiObjectReference: {fileID: 5782083089315501231, guid: 21e1f67a1f8f2884893bd97ea3f350af,
       type: 3}
-    _aiTypeIcon: {fileID: 21300000, guid: ebdb354a78cf3584d802c2926dc08872, type: 3}
+    _aiTypeReference: {fileID: 5782083089315501228, guid: 21e1f67a1f8f2884893bd97ea3f350af,
+      type: 3}
+    _aiTypeIcon: {fileID: 21300000, guid: f1e233c49c65c2b4890c245d23470492, type: 3}
     _unlocked: 1
   _bossTypeReferences:
   - Name: Cthulu_Placeholder
     _minBossesBeforeUnlock: 1
-    _aiTypeReference: {fileID: 5782083089315501231, guid: fb1dfdf6706bfcb459f95a9bc4342e1d,
+    _aiObjectReference: {fileID: 5782083089315501231, guid: fb1dfdf6706bfcb459f95a9bc4342e1d,
+      type: 3}
+    _aiTypeReference: {fileID: -3215235284607866231, guid: fb1dfdf6706bfcb459f95a9bc4342e1d,
       type: 3}
     _aiTypeIcon: {fileID: 21300000, guid: 0553d0953e4009a41ad4b4fbf6187375, type: 3}
     _unlocked: 0
   - Name: BoB_Placeholder
     _minBossesBeforeUnlock: 0
-    _aiTypeReference: {fileID: 5782083089315501231, guid: b208075fff50c4f4b8177e425b9683f1,
+    _aiObjectReference: {fileID: 5782083089315501231, guid: b208075fff50c4f4b8177e425b9683f1,
+      type: 3}
+    _aiTypeReference: {fileID: -59082178058461497, guid: b208075fff50c4f4b8177e425b9683f1,
       type: 3}
     _aiTypeIcon: {fileID: 21300000, guid: 2bdbdad98a7d1804a908ad248d5a2f7e, type: 3}
     _unlocked: 1
+  _availableCombatTypes:
+  - {fileID: 11400000, guid: 50b368dcc0d92d64a9b963bef424d554, type: 2}
+  - {fileID: 11400000, guid: 308a3ebeddf9d9b4ba11305dc0cc7735, type: 2}
+  - {fileID: 11400000, guid: 36d868014005384499b669dde200cd16, type: 2}
+  - {fileID: 11400000, guid: 32a4ea05c0d005e468dfc33fd7624c3c, type: 2}
+  - {fileID: 11400000, guid: f2c70db1f185e844cbd9f0c46cd55003, type: 2}
 --- !u!4 &2014952235
 Transform:
   m_ObjectHideFlags: 0
@@ -64490,7 +64506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd5295e2b65d144883913422c338306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startingMoney: 30
   _currentMoney: 30
+  _startingHealth: 100
   _currentPlayerHealth: 100
   _currencyDisplay: {fileID: 1872752026}
   _healthDisplay: {fileID: 509343573}
@@ -64515,6 +64533,7 @@ MonoBehaviour:
   _wavePredictionRange: 5
   _waveHiddenRange: 5
   _bossFrequency: 5
+  _waveCombatTypePersistanceBase: 2
   _chanceOfEnhancedWave: 0.1
 --- !u!1 &2017537796
 GameObject:

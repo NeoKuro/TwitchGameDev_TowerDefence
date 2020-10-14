@@ -13,7 +13,11 @@ using UnityEngine.UI;
 public class PlayerManager : Singleton<PlayerManager>
 {
     [SerializeField]
+    private int _startingMoney = 30;
+    [SerializeField]
     private int _currentMoney = 30;
+    [SerializeField]
+    private int _startingHealth = 100;
     [SerializeField]
     private int _currentPlayerHealth = 100;
 
@@ -26,8 +30,20 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private void Start()
     {
+        Initialise();
+    }
+
+    public override void Initialise()
+    {
         _currencyDisplay.text = _currentMoney.ToString();
         _healthDisplay.text = _currentPlayerHealth.ToString();
+    }
+
+    public override void OnRetryExecuted()
+    {
+        _currentMoney = _startingMoney;
+        _currentPlayerHealth = _startingHealth;
+        Initialise();
     }
 
     private void IncrementCurrency_Internal(int amountToIncreaseBy)
