@@ -93,7 +93,7 @@ public class AIManager : Singleton<AIManager>
         }
 
         _enemyAI.Remove(toRemove);
-        EvaluateEnemies();
+55        EvaluateEnemies();
     }
 
     private AIType GetRandomAITypeInternal()
